@@ -13,11 +13,7 @@ import { readEnvFile } from '../env.js';
 import { registerProviderContainerConfig } from './provider-container-registry.js';
 
 registerProviderContainerConfig('mistral', () => {
-  const dotenv = readEnvFile([
-    'ANTHROPIC_BASE_URL',
-    'MISTRAL_BASE_URL',
-    'MISTRAL_API_KEY',
-  ]);
+  const dotenv = readEnvFile(['ANTHROPIC_BASE_URL', 'MISTRAL_BASE_URL', 'MISTRAL_API_KEY']);
   const env: Record<string, string> = {};
 
   // Mode Anthropic-compatible (ex: Mistral via api.mistral.ai)
