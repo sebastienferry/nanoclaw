@@ -42,6 +42,14 @@ registerProviderContainerConfig('opencode', (ctx) => {
     if (value) env[key] = value;
   }
 
+  // OpenCode validates that the selected provider has an API key in env at
+  // startup, before any HTTP call. We inject a placeholder so OpenCode boots;
+  // the OneCLI proxy rewrites the Authorization header with the real secret
+  // at request time (host-pattern match on api.<provider>.<tld>).
+  if (ctx.hostEnv.OPENCODE_PROVIDER) {
+    env[`${ctx.hostEnv.OPENCODE_PROVIDER.toUpperCase()}_API_KEY`] = 'placeholder';
+  }
+
   return {
     mounts: [{ hostPath: opencodeDir, containerPath: '/opencode-xdg', readonly: false }],
     env,
